@@ -182,6 +182,28 @@ const useMaterial = () => {
     }
 
     /**
+     * deleteMaterialPlan: 根据唯一 ID 删除材质方案
+     *
+     * @param {Number} uniqId - 材质方案的唯一标识符
+     * @returns {Boolean} - 删除成功返回 true，没找到返回 false
+     *
+     * 功能：从 localStorage 的方案列表中删除指定 ID 的方案
+     */
+    const deleteMaterialPlan = (uniqId) => {
+        const planList = getMateiralList()
+        if (!planList.materials) {
+            return false
+        }
+        const index = planList.materials.findIndex(item => item.uniqId === uniqId)
+        if (index === -1) {
+            return false
+        }
+        planList.materials.splice(index, 1)
+        window.localStorage.setItem(materialPlanListName, JSON.stringify(planList))
+        return true
+    }
+
+    /**
      * 返回值：暴露给组件使用的所有方法和常量
      */
     return {
@@ -190,7 +212,8 @@ const useMaterial = () => {
         setMateiralList,    // 添加材质方案到列表
         getMateiralList,    // 获取材质方案列表
         getBallInfos,       // 获取材质球渲染信息
-        getMaterialPlanById // 根据 ID 获取材质方案
+        getMaterialPlanById, // 根据 ID 获取材质方案
+        deleteMaterialPlan // 删除材质方案
     }
 }
 

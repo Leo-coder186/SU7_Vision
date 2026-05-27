@@ -23,7 +23,7 @@ import useMaterial from './useMaterial';
 /**
  * 获取材质管理方法
  */
-const {getMaterialPlanById} = useMaterial()
+const {getMaterialPlanById, deleteMaterialPlan} = useMaterial()
 
 /**
  * screenPosToWorld: 将屏幕坐标转换为世界坐标
@@ -86,11 +86,17 @@ const handleIntersection = () => {
  * @param {Record<string, THREE.MeshStandardMaterial>} materials
  *        模型材质集合，键是材质名称，值是 THREE 材质对象
  */
-const useMeshStatic = (ballInfos, materials) => {
+const useMeshStatic = (ballInfos, materials, delay = 0) => {
     // 如果没有材质球数据，直接返回
     if (!ballInfos || ballInfos.length === 0) {
         console.warn('没有材质方案数据，材质球不显示')
         return
+    }
+
+    // 延迟控制：是否已经过延迟时间
+    let isReady = delay <= 0
+    if (delay > 0) {
+        setTimeout(() => { isReady = true }, delay)
     }
 
     /**
@@ -218,16 +224,19 @@ const useMeshStatic = (ballInfos, materials) => {
         // 更新所有 TWEEN 动画
         TWEEN.update()
 
-        // 如果有悬停的材质球，让它绕 Y 轴旋转
-        if (hoveredBall) {
-            hoveredBall.rotation.y += 0.02
-        }
-
         // 清除渲染器的颜色和深度缓冲区
         renderer.value.clear()
 
         // 渲染主场景
         renderer.value.render(scene.value, camera.value)
+
+        // 如果还没到渲染时机（开场动画期间），跳过材质球渲染
+        if (!isReady) return
+
+        // 如果有悬停的材质球，让它绕 Y 轴旋转
+        if (hoveredBall) {
+            hoveredBall.rotation.y += 0.02
+        }
 
         // 清除深度缓冲区（保留颜色缓冲区）
         // 这样虚拟场景可以叠加在主场景之上
@@ -246,6 +255,9 @@ const useMeshStatic = (ballInfos, materials) => {
      * 3. 如果离开，恢复材质球大小
      */
     addEventListener('mousemove', e => {
+        // 如果开场动画还没结束，不处理悬停
+        if (!isReady) return
+
         // 将鼠标位置转为屏幕坐标
         const screenPosition = new THREE.Vector2(e.clientX, e.clientY)
 
@@ -279,7 +291,13 @@ const useMeshStatic = (ballInfos, materials) => {
      * 2. 如果点击，通过 uniqId 获取材质方案
      * 3. 将材质方案应用到汽车模型的各个部件
      */
-    addEventListener('click', e => {
+    // 禁用浏览器右键菜单
+    addEventListener('contextmenu', e => e.preventDefault())
+
+    addEventListener('mousedown', e => {
+        // 如果开场动画还没结束，不处理点击
+        if (!isReady) return
+
         // 将鼠标位置转为屏幕坐标
         const screenPosition = new THREE.Vector2(e.clientX, e.clientY)
 
@@ -289,6 +307,19 @@ const useMeshStatic = (ballInfos, materials) => {
         if (intersects.length) {
             // 获取点击的材质球
             const clickedBall = intersects[0].object
+
+            // 右键点击(button=2)删除材质球
+            if (e.button === 2) {
+                const success = deleteMaterialPlan(clickedBall.uniqId)
+                if (success) {
+                    alert('材质球已删除，刷新页面查看')
+                    window.location.reload()
+                }
+                return
+            }
+
+            // 左键点击(button=0)应用材质
+            if (e.button !== 0) return
 
             // 根据 uniqId 获取完整的材质方案
             const materialPlan = getMaterialPlanById(clickedBall.uniqId)

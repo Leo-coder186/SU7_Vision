@@ -86,7 +86,7 @@ export function TweenScale(obj, isRervese) {
     return new TWEEN.Tween(obj.scale)
         .easing(TWEEN.Easing.Quadratic.InOut)  // 二次方缓动
         .to(to, 200)  // 200ms 动画时长
-        .repeat(false)  // 不重复
+        .repeat(0)  // 不重复
         .start()
 }
 

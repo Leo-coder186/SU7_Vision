@@ -194,9 +194,10 @@ const {sprites,lensflares,toggleMarker}=useModelInit(model)
  * 参数：
  * - ballInfos: 材质方案信息数组，包含每个方案的颜色、位置等
  * - materials: 模型的材质对象，用于应用选中的材质方案
+ * - 4500: 延迟4.5秒后开始渲染材质球，避开开场动画的卡顿
  * 功能：创建一个虚拟场景渲染材质球，支持鼠标悬停放大、点击应用材质
  */
-useMeshStatic(ballInfos,materials)
+useMeshStatic(ballInfos, materials, 4500)
 
 /**
  * useAnimation: 处理动画逻辑
