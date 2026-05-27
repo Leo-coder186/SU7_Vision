@@ -1,0 +1,46 @@
+/**
+ * @Description: index.css 全局样式文件
+ *              定义整个应用的基础样式和重置样式
+ */
+
+/**
+ * CSS 重置（Reset）
+ *
+ * 为什么要重置：
+ * 不同浏览器对 HTML 元素有不同的默认样式（如 margin、padding）
+ * 重置样式可以消除这些差异，让页面在不同浏览器中表现一致
+ */
+
+/**
+ * * 通配符选择器
+ * 选中页面中的所有元素
+ */
+* {
+  margin: 0;      /* 清除所有元素的外边距 */
+  padding: 0;      /* 清除所有元素的内边距 */
+  box-sizing: border-box;  /* 设置盒模型计算方式 */
+  /*
+   * box-sizing: border-box 的作用：
+   * 元素的 width/height 包含 content、padding、border
+   * 这样设置元素的尺寸更加直观
+   */
+}
+
+/**
+ * body 元素样式
+ */
+body {
+  overflow: hidden;          /* 隐藏溢出的内容，防止出现滚动条 */
+  font-family: Monospace;     /* 使用等宽字体家族 */
+  background-color: #f5f6f2; /* 浅灰白色背景色 */
+}
+
+/**
+ * #app 元素样式
+ *
+ * 这是 Vue 应用挂载的根元素
+ */
+#app {
+  width: 100vw;   /* 宽度占满整个视口 */
+  height: 100vh;  /* 高度占满整个视口 */
+}
