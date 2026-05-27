@@ -29,6 +29,8 @@
         <Suspense>
             <CarModel @camera-ready="handleCameraReady" />
         </Suspense>
+
+        <SpeedTunnle />
     </TresCanvas>
 </template>
 
@@ -42,7 +44,9 @@ import Env from '../components/Env.vue';
 import CarModel from '../components/CarModel.vue';
 import ViewController from '../components/ViewController.vue';
 import Loading from '../components/Loading.vue';
+import SpeedTunnle from '../components/speedTunnle.vue';
 import { h, defineComponent, ref } from 'vue'
+
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 
