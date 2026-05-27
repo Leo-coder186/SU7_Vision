@@ -90,6 +90,12 @@ const {scene:model,animations,materials}=await useGLTF('/src/assets/models/su7.g
     draco:true
 })
 
+// 强制设置车身为海湾蓝（小米SU7标准色 #0077be）
+// 材质名称是 Car_body
+if (materials['Car_body']) {
+    materials['Car_body'].color.set('#0077be')
+}
+
 /**
  * emit: 定义组件可以触发的事件
  * camera-ready: 当模型加载完成后触发，通知父组件相机已准备就绪
@@ -115,16 +121,16 @@ gui.add({
         const newPlan = {
             uniqId: Date.now(),
             '车身材质': {
-                typeName: 'Car_body.004',
-                color: '#' + (materials['Car_body.004']?.color?.getHexString() || 'ff9ecf'),
-                metalness: materials['Car_body.004']?.metalness ?? 0.9,
-                roughness: materials['Car_body.004']?.roughness ?? 0.1
+                typeName: 'Car_body',
+                color: '#' + (materials['Car_body']?.color?.getHexString() || '#0077be'),
+                metalness: materials['Car_body']?.metalness ?? 0.9,
+                roughness: materials['Car_body']?.roughness ?? 0.1
             },
             '车窗材质': {
-                typeName: 'Car_window.004',
-                color: '#' + (materials['Car_window.004']?.color?.getHexString() || '88ccff'),
-                metalness: materials['Car_window.004']?.metalness ?? 0.1,
-                roughness: materials['Car_window.004']?.roughness ?? 0.05
+                typeName: 'Car_window',
+                color: '#' + (materials['Car_window']?.color?.getHexString() || '88ccff'),
+                metalness: materials['Car_window']?.metalness ?? 0.1,
+                roughness: materials['Car_window']?.roughness ?? 0.05
             },
             '轮胎材质': {
                 typeName: 'M_Wheel_ALL.005',
@@ -139,36 +145,7 @@ gui.add({
     }
 }, 'saveMaterial').name('保存材质球')
 
-/**
- * 初始化默认材质方案（如果 localStorage 中没有）
- */
-const {getMateiralList, setMateiralList} = useMaterial()
-const materialList = getMateiralList()
-if (!materialList.materials || materialList.materials.length === 0) {
-    // 从模型材质中提取当前配置，创建默认方案
-    const defaultMaterialPlan = {
-        uniqId: Date.now(),
-        '车身材质': {
-            typeName: 'Car_body.004',
-            color: materials['Car_body.004']?.color?.getHexString() ? '#' + materials['Car_body.004'].color.getHexString() : '#ff9ecf',
-            metalness: materials['Car_body.004']?.metalness ?? 0.9,
-            roughness: materials['Car_body.004']?.roughness ?? 0.1
-        },
-        '车窗材质': {
-            typeName: 'Car_window.004',
-            color: materials['Car_window.004']?.color?.getHexString() ? '#' + materials['Car_window.004'].color.getHexString() : '#88ccff',
-            metalness: materials['Car_window.004']?.metalness ?? 0.1,
-            roughness: materials['Car_window.004']?.roughness ?? 0.05
-        },
-        '轮胎材质': {
-            typeName: 'M_Wheel_ALL.005',
-            color: materials['M_Wheel_ALL.005']?.color?.getHexString() ? '#' + materials['M_Wheel_ALL.005'].color.getHexString() : '#333333',
-            metalness: materials['M_Wheel_ALL.005']?.metalness ?? 0.0,
-            roughness: materials['M_Wheel_ALL.005']?.roughness ?? 0.9
-        }
-    }
-    setMateiralList(defaultMaterialPlan)
-}
+
 
 /**
  * 获取材质球信息

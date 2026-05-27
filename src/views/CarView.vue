@@ -3,7 +3,7 @@
 
     <ViewController/>
 
-    <TresCanvas clear-color="#050505" window-size>
+    <TresCanvas clear-color="#0077be" window-size>
         <TresPerspectiveCamera
             :position="[0, 2, 10]"
             :fov="60"

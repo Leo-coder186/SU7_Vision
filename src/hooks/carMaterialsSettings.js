@@ -19,13 +19,13 @@
 
 /**
  * carPaint: 车身材质配置
- * 冰莓粉车漆效果，带有金属光泽
+ * 海湾蓝车漆效果，带有金属光泽
  */
 export const carPaint = {
     folderName: '车身材质',     // GUI 文件夹名称
     typeName: 'Car_body',      // 匹配模型中名称包含 'Car_body' 的网格
-    color: '#ff9ecf',          // 冰莓粉颜色
-    metalness: 0.9,            // 高金属度，模拟金属漆面
+    color: '#46b6d2',          // 海湾蓝颜色
+    metalness: 0.4,            // 高金属度，模拟金属漆面
     roughness: 0.1,             // 低粗糙度，表面光滑有反射
     opacity: 1.0               // 完全不透明
 }
